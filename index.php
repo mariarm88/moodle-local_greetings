@@ -48,4 +48,10 @@ echo $OUTPUT->render_from_template('local_greetings/greeting_message', $template
 
 $messageform->display();
 
+if ($data = $messageform->get_data()) {
+    $message = required_param('message', PARAM_TEXT);
+
+    echo $OUTPUT->heading($message, 4);
+}
+
 echo $OUTPUT->footer();
