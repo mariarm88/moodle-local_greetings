@@ -105,8 +105,8 @@ if ($allowviewpost) {
 
     $sql = "SELECT m.id, m.message, m.timecreated, m.userid {$userfieldssql->selects}
             FROM {local_greetings_messages} m
-        LEFT JOIN {user} u ON u.id = m.userid
-        ORDER BY timecreated DESC";
+            LEFT JOIN {user} u ON u.id = m.userid
+            ORDER BY timecreated DESC";
 
     $messages = $DB->get_records_sql($sql);
 
@@ -116,8 +116,11 @@ if ($allowviewpost) {
         $m->candelete = ($deleteanypost || ($deletepost && $m->userid == $USER->id));
     }
 
+    $cardbackgroundcolor = get_config('local_greetings', 'messagecardbgcolor');
+
     $templatedata = [
         'messages' => array_values($messages),
+        'cardbackgroundcolor' => $cardbackgroundcolor,
     ];
     echo $OUTPUT->render_from_template('local_greetings/messages', $templatedata);
 }
