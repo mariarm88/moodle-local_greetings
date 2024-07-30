@@ -38,6 +38,21 @@ function local_greetings_extend_navigation_frontpage(navigation_node $frontpage)
 }
 
 /**
+ * Insert a link to index.php on the Course secondary navigation.
+ *
+ * @param navigation_node $mynode Node representing the course secondary navigation tree.
+ */
+function local_greetings_extend_navigation_course(navigation_node $mynode) {
+    if (isloggedin() && !isguestuser()) {
+        $newnode = $mynode->add(
+            get_string('pluginname', 'local_greetings'),
+            new moodle_url('/local/greetings/index.php'),
+            navigation_node::TYPE_CUSTOM,
+        );
+    }
+}
+
+/**
  * Get a localised greeting message for a user
  *
  * @param \stdClass $user
