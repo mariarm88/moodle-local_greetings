@@ -54,10 +54,10 @@ class add_greeting extends external_api {
      */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters(
-                array(
-                        'userid' => new external_value(PARAM_INT, 'Id of the user'),
-                        'message' => new external_value(PARAM_TEXT, 'Message to be added'),
-                )
+                [
+                    'userid' => new external_value(PARAM_INT, 'Id of the user'),
+                    'message' => new external_value(PARAM_TEXT, 'Message to be added'),
+                ]
         );
     }
 
@@ -75,7 +75,7 @@ class add_greeting extends external_api {
 
         $context = context_system::instance();
 
-        $params = self::validate_parameters(self::execute_parameters(), array('userid' => $userid, 'message' => $message));
+        $params = self::validate_parameters(self::execute_parameters(), ['userid' => $userid, 'message' => $message]);
 
         $message = trim($params['message']);
 
@@ -83,7 +83,7 @@ class add_greeting extends external_api {
             return [
                 'warnings' => [[
                     'warningcode' => 'emptymessage',
-                    'message' => get_string('emptymessage', 'local_greetings')
+                    'message' => get_string('emptymessage', 'local_greetings'),
                 ]],
             ];
         }
@@ -109,9 +109,9 @@ class add_greeting extends external_api {
      */
     public static function execute_returns(): external_description {
         return new external_single_structure(
-            array(
-                'warnings' => new external_warnings()
-            )
+            [
+                'warnings' => new external_warnings(),
+            ]
         );
     }
 }

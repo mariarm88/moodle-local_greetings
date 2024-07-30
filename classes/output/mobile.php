@@ -59,7 +59,7 @@ class mobile {
 
         $data = [
             'messages' => array_values($messages),
-            'canpost' => has_capability('local/greetings:postmessages', $context)
+            'canpost' => has_capability('local/greetings:postmessages', $context),
         ];
 
         return [
@@ -91,7 +91,7 @@ class mobile {
                     'html' => $OUTPUT->render_from_template('local_greetings/mobile_add_greeting', $data),
                 ],
             ],
-            'javascript' => file_get_contents(__DIR__ . '/../../js/mobile/add_greeting.js')
+            'javascript' => file_get_contents(__DIR__ . '/../../js/mobile/add_greeting.js'),
         ];
     }
 }
