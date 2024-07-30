@@ -25,14 +25,14 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$functions = array(
-    'local_greetings_add_greeting' => array(
+$functions = [
+    'local_greetings_add_greeting' => [
         'classname' => 'local_greetings\external\add_greeting',
         'methodname' => 'execute',
         'classpath' => 'local/greetings/classes/external/add_greeting.php',
         'description' => "Adds a greetings message.",
         'type' => 'write',
         'capabilities'  => 'local/greetings:postmessages',
-        'services' => array(MOODLE_OFFICIAL_MOBILE_SERVICE, 'local_mobile'),
-    ),
-);
+        'services' => [MOODLE_OFFICIAL_MOBILE_SERVICE, 'local_mobile'],
+    ],
+];
