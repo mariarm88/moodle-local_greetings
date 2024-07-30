@@ -40,6 +40,18 @@ if (isguestuser()) {
 
 require_capability('local/greetings:viewmessages', $context);
 
+$homenode = $PAGE->navigation->add(
+    get_string('pluginname', 'local_greetings'),
+    new moodle_url('/local/greetings/')
+);
+
+$allmessagesnode = $homenode->add(
+   get_string('allmessages', 'local_greetings'),
+   $url
+);
+
+$allmessagesnode->make_active();
+
 $output = $PAGE->get_renderer('local_greetings');
 
 echo $output->header();

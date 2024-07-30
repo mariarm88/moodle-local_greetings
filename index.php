@@ -87,6 +87,9 @@ $output = $PAGE->get_renderer('local_greetings');
 
 echo $output->header();
 
+// Adding simple navmenu acting as "tertiary navigation".
+echo $output->render_from_template('local_greetings/navmenu', []);
+
 if (isloggedin()) {
     echo local_greetings_get_greeting($USER);
 } else {
