@@ -53,7 +53,6 @@ class index_page implements renderable, templatable {
         $deletepost = has_capability('local/greetings:deleteownmessage', $context);
         $deleteanypost = has_capability('local/greetings:deleteanymessage', $context);
 
-
         foreach ($this->messages as $m) {
             // Can this user edit/delete this post?
             $m->candelete = ($deleteanypost || ($deletepost && $m->userid == $USER->id));
