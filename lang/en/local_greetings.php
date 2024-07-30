@@ -25,6 +25,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+$string['allmessages'] = 'Greetings - All messages';
 $string['pluginname'] = 'Greetings';
 $string['greetinguser'] = 'Greetings, user.';
 $string['greetingloggedinuser'] = 'Greetings, {$a}.';
