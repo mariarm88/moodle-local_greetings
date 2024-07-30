@@ -21,35 +21,35 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$capabilities = array(
-    'local/greetings:postmessages' => array(
+$capabilities = [
+    'local/greetings:postmessages' => [
         'riskbitmask' => RISK_SPAM,
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
-        'archetypes' => array(
+        'archetypes' => [
             'user' => CAP_ALLOW,
-        )
-    ),
-    'local/greetings:viewmessages' => array(
+        ],
+    ],
+    'local/greetings:viewmessages' => [
         'captype' => 'read',
         'contextlevel' => CONTEXT_SYSTEM,
-        'archetypes' => array(
+        'archetypes' => [
             'user' => CAP_ALLOW,
-        )
-    ),
-    'local/greetings:deleteownmessage' => array(
+        ],
+    ],
+    'local/greetings:deleteownmessage' => [
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
-        'archetypes' => array(
+        'archetypes' => [
             'user' => CAP_ALLOW,
-        )
-    ),
-    'local/greetings:deleteanymessage' => array(
+        ],
+    ],
+    'local/greetings:deleteanymessage' => [
         'riskbitmask' => RISK_DATALOSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
-        'archetypes' => array(
+        'archetypes' => [
             'manager' => CAP_ALLOW,
-        )
-    ),
-);
+        ],
+    ],
+];
