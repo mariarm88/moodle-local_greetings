@@ -36,9 +36,13 @@ $PAGE->set_heading(get_string('pluginname', 'local_greetings'));
 echo $OUTPUT->header();
 
 if (isloggedin()) {
-    echo local_greetings_get_greeting($USER);
+    $usergreeting = local_greetings_get_greeting($USER);
 } else {
-    echo get_string('greetinguser', 'local_greetings');
+    $usergreeting = get_string('greetinguser', 'local_greetings');
 }
+
+$templatedata = ['usergreeting' => $usergreeting];
+
+echo $OUTPUT->render_from_template('local_greetings/greeting_message', $templatedata);
 
 echo $OUTPUT->footer();
