@@ -34,7 +34,6 @@ $capabilities = [
         ],
     ],
     'local/greetings:viewmessages' => [
-        'riskbitmask' => RISK_SPAM,
         'captype' => 'read',
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => [
