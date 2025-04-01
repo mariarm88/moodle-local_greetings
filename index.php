@@ -39,6 +39,7 @@ if (isguestuser()) {
 }
 
 $allowpost = has_capability('local/greetings:postmessages', $context);
+$allowviewpost = has_capability('local/greetings:viewmessages', $context);
 
 $messageform = new \local_greetings\form\message_form();
 
@@ -72,17 +73,19 @@ if ($allowpost) {
     $messageform->display();
 }
 
-$userfields = \core_user\fields::for_name()->with_identity($context);
-$userfieldssql = $userfields->get_sql('u');
+if ($allowviewpost) {
+    $userfields = \core_user\fields::for_name()->with_identity($context);
+    $userfieldssql = $userfields->get_sql('u');
 
-$sql = "SELECT m.id, m.message, m.timecreated, m.userid {$userfieldssql->selects}
-          FROM {local_greetings_messages} m
-     LEFT JOIN {user} u ON u.id = m.userid
-      ORDER BY timecreated DESC";
+    $sql = "SELECT m.id, m.message, m.timecreated, m.userid {$userfieldssql->selects}
+            FROM {local_greetings_messages} m
+        LEFT JOIN {user} u ON u.id = m.userid
+        ORDER BY timecreated DESC";
 
-$messages = $DB->get_records_sql($sql);
+    $messages = $DB->get_records_sql($sql);
 
-$templatedata = ['messages' => array_values($messages)];
-echo $OUTPUT->render_from_template('local_greetings/messages', $templatedata);
+    $templatedata = ['messages' => array_values($messages)];
+    echo $OUTPUT->render_from_template('local_greetings/messages', $templatedata);
+}
 
 echo $OUTPUT->footer();
