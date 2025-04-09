@@ -48,6 +48,8 @@ $messageform = new \local_greetings\form\message_form();
 $action = optional_param('action', '', PARAM_TEXT);
 
 if ($action == 'del') {
+    require_sesskey();
+
     $id = required_param('id', PARAM_INT);
 
     if ($deleteanypost || $deletepost) {
