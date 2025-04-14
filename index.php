@@ -113,6 +113,7 @@ if ($allowviewpost) {
     foreach ($messages as $m) {
         // Can this user delete this post?
         // Attach a flag to each message here because we can't do this in mustache.
+        // Using this flag for the edit option too. You can also create another capability for "Edit messages" if you want.
         $m->candelete = ($deleteanypost || ($deletepost && $m->userid == $USER->id));
     }
 
