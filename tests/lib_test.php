@@ -56,6 +56,25 @@ final class lib_test extends \advanced_testcase {
     }
 
     /**
+     * Test that user with county='AU' returns correct greeting string.
+     *
+     * @covers ::local_greetings_get_greeting
+     *
+     * @return void
+     */
+    public function test_local_greetings_au_user(): void {
+        $this->resetAfterTest();
+
+        // Test user with country='au'.
+        $user = $this->getDataGenerator()->create_user(); // Create a new user.
+        $user->country = 'AU';
+
+        $result = local_greetings_get_greeting($user);
+        $expected = get_string('greetinguserau', 'local_greetings', fullname($user));
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
      * Testing the translation of greeting messages.
      *
      * @covers ::local_greetings_get_greeting
