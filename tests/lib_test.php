@@ -40,6 +40,22 @@ require_once($CFG->dirroot . '/local/greetings/lib.php');
 final class lib_test extends \advanced_testcase {
 
     /**
+     * Test that null user returns correct greeting string.
+     *
+     * @covers ::local_greetings_get_greeting
+     *
+     * @return void
+     */
+    public function test_local_greetings_null_user(): void {
+        $this->resetAfterTest();
+
+        // Test null user case.
+        $result = local_greetings_get_greeting(null);
+        $expected = get_string('greetinguser', 'local_greetings');
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
      * Testing the translation of greeting messages.
      *
      * @covers ::local_greetings_get_greeting
