@@ -29,7 +29,7 @@ require_once($CFG->dirroot . '/local/greetings/lib.php');
  * @copyright   2022 Your name <your@email>
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class lib_test extends \advanced_testcase {
+final class lib_test extends \advanced_testcase {
 
     /**
      * Testing the translation of greeting messages.
@@ -40,7 +40,7 @@ class lib_test extends \advanced_testcase {
      * @param string|null $country User country
      * @param string $langstring Greetings message language string
      */
-    public function test_local_greetings_get_greeting(?string $country, string $langstring): string {
+    public function test_local_greetings_get_greeting(?string $country, string $langstring): void {
         $user = null;
         if (!empty($country)) {
             $this->resetAfterTest(true);
