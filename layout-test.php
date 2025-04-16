@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * TODO describe file layout-test
+ * Test layout file
  *
  * @package    local_greetings
  * @copyright  2023 YOUR NAME <your@email.com>
