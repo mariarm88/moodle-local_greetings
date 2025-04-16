@@ -48,6 +48,12 @@ class messageslist extends \table_sql {
         $this->define_headers($headers);
     }
 
+    /**
+     * Display the user
+     *
+     * @param stdClass $row - The row of data
+     * @return string Link to user profile
+     */
     public function col_userid($row) {
         return \html_writer::link(
             new \moodle_url('/user/view.php',
@@ -55,10 +61,22 @@ class messageslist extends \table_sql {
         );
     }
 
+    /**
+     * Display a human-friendly date
+     *
+     * @param stdClass $row - The row of data
+     * @return string Formatted date
+     */
     public function col_timecreated($row) {
         return userdate($row->timecreated);
     }
 
+    /**
+     * Display the message
+     *
+     * @param stdClass $row - The row of data
+     * @return string The message
+     */
     public function col_message($row) {
         return format_text($row->message);
     }

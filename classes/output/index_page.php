@@ -33,6 +33,11 @@ class index_page implements renderable, templatable {
     /** @var string $messages Messages to display in the template. */
     private $messages = null;
 
+    /**
+     * Constructor
+     *
+     * @var array $messages
+     */
     public function __construct($messages) {
         $this->messages = $messages;
     }
