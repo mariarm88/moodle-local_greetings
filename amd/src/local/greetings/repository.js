@@ -1,4 +1,3 @@
-<?php
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -15,24 +14,24 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * View.php
+ * Repository module
  *
- * @package    local_greetings
+ * @module     local_greetings/local/greetings/repository
  * @copyright  2024 YOUR NAME <your@email.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require('../../config.php');
+import {call as fetchMany} from 'core/ajax';
 
-require_login();
-
-$url = new moodle_url('/local/greetings/view.php', []);
-$PAGE->set_url($url);
-$PAGE->set_context(context_system::instance());
-
-$PAGE->set_title(get_string('pluginname', 'local_greetings'));
-$PAGE->set_heading(get_string('pluginname', 'local_greetings'));
-echo $OUTPUT->header();
-
-echo $OUTPUT->render_from_template('local_greetings/greeting', ['userid' => $USER->id]);
-echo $OUTPUT->footer();
+/**
+ * Get  user details by id.
+ *
+ * @param {Number} userid
+ * @returns
+ */
+export const getUser = (userid = 0) => {
+    return fetchMany([{
+        methodname: 'core_user_get_users_by_field',
+        args: {field: 'id', values: [userid]}
+    }])[0];
+};
