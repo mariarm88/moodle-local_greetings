@@ -27,11 +27,21 @@ use plugin_renderer_base;
  */
 class renderer extends plugin_renderer_base {
 
+    /**
+     * Rendering layout test page
+     *
+     * @return string
+     */
     public function render_layout_test_page($page): string {
         $data = $page->export_for_template($this);
         return parent::render_from_template('local_greetings/layout-test', $data);
     }
 
+    /**
+     * Rendering index page
+     *
+     * @return string
+     */
     public function render_index_page($page): string {
         $data = $page->export_for_template($this);
         return parent::render_from_template('local_greetings/index', $data);

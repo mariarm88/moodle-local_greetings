@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * TODO describe file allmessages
+ * All messages report
  *
  * @package    local_greetings
  * @copyright  2024 YOUR NAME <your@email.com>
