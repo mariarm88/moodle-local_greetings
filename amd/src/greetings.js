@@ -24,6 +24,7 @@
 import Selectors from 'local_greetings/local/greetings/selectors';
 import * as Repository from 'local_greetings/local/greetings/repository';
 import * as Str from 'core/str';
+import Log from 'core/log';
 import DynamicForm from 'core_form/dynamicform';
 
 export const init = (userid) => {
@@ -51,8 +52,8 @@ const registerEventListeners = (userid) => {
             // Example of an ajax call.
             Repository.getUser(userid)
             .then(function(response) {
-                window.console.log("Logged in user: " + response[0].firstname);
-                window.console.log("User country: " + response[0].country);
+                Log.debug("Logged in user: " + response[0].firstname);
+                Log.debug("User country: " + response[0].country);
                 return;
             })
             .catch(e);

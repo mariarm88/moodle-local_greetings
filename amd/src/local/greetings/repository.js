@@ -36,6 +36,12 @@ export const getUser = (userid = 0) => {
     }])[0];
 };
 
+/**
+ *
+ * @param {String} message Greeting message
+ * @param {Number} userid ID of user
+ * @returns
+ */
 export const saveGreeting = (message, userid = 0) => {
     return fetchMany([{
         methodname: 'local_greetings_add_greeting',
