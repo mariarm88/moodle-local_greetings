@@ -35,3 +35,10 @@ export const getUser = (userid = 0) => {
         args: {field: 'id', values: [userid]}
     }])[0];
 };
+
+export const saveGreeting = (message, userid = 0) => {
+    return fetchMany([{
+        methodname: 'local_greetings_add_greeting',
+        args: {userid: userid, message: message}
+    }])[0];
+};

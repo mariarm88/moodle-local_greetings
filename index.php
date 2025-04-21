@@ -64,25 +64,6 @@ if ($action == 'del') {
     }
 }
 
-$messageform = new \local_greetings\form\message_form();
-
-if ($data = $messageform->get_data()) {
-    require_capability('local/greetings:postmessages', $context);
-
-    $message = required_param('message', PARAM_TEXT);
-
-    if (!empty($message)) {
-        $record = new stdClass;
-        $record->message = $message;
-        $record->timecreated = time();
-        $record->userid = $USER->id;
-
-        $DB->insert_record('local_greetings_messages', $record);
-
-        redirect($PAGE->url); // Reload this page to load empty form.
-    }
-}
-
 $output = $PAGE->get_renderer('local_greetings');
 
 echo $output->header();
@@ -94,10 +75,6 @@ if (isloggedin()) {
     echo local_greetings_get_greeting($USER);
 } else {
     echo get_string('greetinguser', 'local_greetings');
-}
-
-if ($allowpost) {
-    $messageform->display();
 }
 
 if (has_capability('local/greetings:viewmessages', $context)) {
@@ -114,5 +91,11 @@ if (has_capability('local/greetings:viewmessages', $context)) {
     $renderable = new \local_greetings\output\index_page($messages);
     echo $output->render($renderable);
 }
+
+$PAGE->requires->js_call_amd(
+    'local_greetings/greetings',
+    'messageDynamicForm',
+    ['[data-region=form]', \local_greetings\form\message_dynamic_form::class, $USER->id]
+);
 
 echo $output->footer();

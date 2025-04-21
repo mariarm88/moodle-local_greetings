@@ -23,6 +23,11 @@
     {
     }
 }}
+{{#canpost}}
+    <div id="formcontainer" data-region="form">
+        {{{messageform}}}
+    </div>
+{{/canpost}}
 <div class="box py-3 card-columns">
 {{#messages}}
     <div class="card" style="background: {{cardbackgroundcolor}}">

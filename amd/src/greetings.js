@@ -24,6 +24,7 @@
 import Selectors from 'local_greetings/local/greetings/selectors';
 import * as Repository from 'local_greetings/local/greetings/repository';
 import * as Str from 'core/str';
+import DynamicForm from 'core_form/dynamicform';
 
 export const init = (userid) => {
     registerEventListeners(userid);
@@ -74,3 +75,20 @@ const registerEventListeners = (userid) => {
  * @returns {Promise}
  */
 const userGreeting = (name) => Str.getString('greetinguserau', 'local_greetings', name);
+
+export const messageDynamicForm = (selector, formClass, userid) => {
+    const form = new DynamicForm(document.querySelector(selector), formClass);
+    const formargs = {};
+    form.addEventListener(form.events.FORM_SUBMITTED, async(e) => {
+        e.preventDefault();
+        const response = e.detail;
+        form.load({...formargs});
+
+        Repository.saveGreeting(response.message, userid)
+        .then(function() {
+            window.location.reload(); // Just reload the page.
+            return;
+        })
+        .catch(e);
+    });
+};

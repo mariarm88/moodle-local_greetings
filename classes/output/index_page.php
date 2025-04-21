@@ -67,6 +67,12 @@ class index_page implements renderable, templatable {
         $data->sesskey = sesskey();
         $data->cardbackgroundcolor = $cardbackgroundcolor;
 
+        $messageform = new \local_greetings\form\message_dynamic_form();
+        $messageform->set_data_for_dynamic_submission();
+
+        $data->canpost = has_capability('local/greetings:postmessages', $context);
+        $data->messageform = $messageform->render();
+
         return $data;
     }
 }

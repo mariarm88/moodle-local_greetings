@@ -32,6 +32,7 @@ $functions = [
         'classpath' => 'local/greetings/classes/external/add_greeting.php',
         'description' => "Adds a greetings message.",
         'type' => 'write',
+        'ajax' => true,
         'capabilities'  => 'local/greetings:postmessages',
         'services' => [MOODLE_OFFICIAL_MOBILE_SERVICE, 'local_mobile'],
     ],
