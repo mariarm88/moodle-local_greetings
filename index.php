@@ -18,122 +18,60 @@
  * Main file to view greetings
  *
  * @package     local_greetings
- * @copyright   2022 Your name <your@email>
+ * @copyright   2026 Mari Romero <marrmart@emeal.nttdata.com>
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-require_once('../../config.php');
-require_once($CFG->dirroot . '/local/greetings/lib.php');
-require_once($CFG->dirroot . '/local/greetings/message_form.php');
-
-$context = context_system::instance();
-$PAGE->set_context($context);
-$PAGE->set_url(new moodle_url('/local/greetings/index.php'));
-$PAGE->set_pagelayout('standard');
-$PAGE->set_title($SITE->fullname);
-$PAGE->set_heading(get_string('pluginname', 'local_greetings'));
-
+// Carga el archivo de configuración principal de Moodle
+require_once('../config.php');
+// Incluye funciones auxiliares del plugin local "greetings"
+require_once($CFG->dirroot . '/moodle-local_greetings/lib.php');
+// Incluye el formulario definido para el plugin
+require_once($CFG->dirroot . '/moodle-local_greetings/message_form.php');
+// Obliga a que el usuario esté autenticado (si no, redirige al login)
 require_login();
-
-if (isguestuser()) {
-    throw new moodle_exception('noguest');
-}
-
-$allowpost = has_capability('local/greetings:postmessages', $context);
-$deletepost = has_capability('local/greetings:deleteownmessage', $context);
-$deleteanypost = has_capability('local/greetings:deleteanymessage', $context);
-
-$action = optional_param('action', '', PARAM_TEXT);
-
-if ($action == 'del') {
-    require_sesskey();
-
-    $id = required_param('id', PARAM_TEXT);
-
-    if ($deleteanypost || $deletepost) {
-        $params = array('id' => $id);
-
-        // Users without permission should only delete their own post.
-        if(!$deleteanypost) {
-            $params += ['userid' => $USER->id];
-        }
-
-        // TODO: Confirm before deleting.
-        $DB->delete_records('local_greetings_messages', $params);
-
-        redirect($PAGE->url);
-    }
-}
-
-$messageform = new local_greetings_message_form();
-
-if ($data = $messageform->get_data()) {
-    require_capability('local/greetings:postmessages', $context);
-
-    $message = required_param('message', PARAM_TEXT);
-
-    if (!empty($message)) {
-        $record = new stdClass;
-        $record->message = $message;
-        $record->timecreated = time();
-        $record->userid = $USER->id;
-
-        $DB->insert_record('local_greetings_messages', $record);
-    }
-}
-
+// Obtiene el contexto del sistema (nivel global en Moodle)
+$context = \context_system::instance();
+// Establece el contexto para la página actual
+$PAGE->set_context($context);
+// Define la URL de esta página (importante para navegación interna de Moodle)
+$PAGE->set_url(new moodle_url('/moodle-local_greetings/index.php'));
+// Define el tipo de diseño de la página (layout estándar)
+$PAGE->set_pagelayout('standard');
+// Define el título/encabezado de la página
+$PAGE->set_heading('Greetings');
+// Muestra el encabezado de la página (incluye cabecera, menú, etc.)
 echo $OUTPUT->header();
-
+// Comprueba si el usuario está logueado
 if (isloggedin()) {
-    echo $OUTPUT->heading(local_greetings_get_greeting($USER));
-} else {
-    echo get_string('greetinguser', 'local_greetings');
-}
-
-if ($allowpost) {
-    $messageform->display();
-}
-
-if (has_capability('local/greetings:viewmessages', $context)) {
-    $userfields = \core_user\fields::for_name()->with_identity($context);
-    $userfieldssql = $userfields->get_sql('u');
-
-    $sql = "SELECT m.id, m.message, m.timecreated, m.userid {$userfieldssql->selects}
-              FROM {local_greetings_messages} m
-         LEFT JOIN {user} u ON u.id = m.userid
-          ORDER BY timecreated DESC";
-
-    $messages = $DB->get_records_sql($sql);
-
-    echo $OUTPUT->box_start('card-columns');
-
-    foreach ($messages as $m) {
-        echo html_writer::start_tag('div', array('class' => 'card'));
-        echo html_writer::start_tag('div', array('class' => 'card-body'));
-        echo html_writer::tag('p', format_text($m->message, FORMAT_PLAIN), array('class' => 'card-text'));
-        echo html_writer::tag('p', get_string('postedby', 'local_greetings', $m->firstname), array('class' => 'card-text'));
-        echo html_writer::start_tag('p', array('class' => 'card-text'));
-        echo html_writer::tag('small', userdate($m->timecreated), array('class' => 'text-muted'));
-        echo html_writer::end_tag('p');
-
-        if ($deleteanypost || ($deletepost && $m->userid == $USER->id)) {
-            echo html_writer::start_tag('p', array('class' => 'card-footer text-center'));
-            echo html_writer::link(
-                new moodle_url(
-                    '/local/greetings/index.php',
-                    array('action' => 'del', 'id' => $m->id, 'sesskey' => sesskey())
-                ),
-                $OUTPUT->pix_icon('t/delete', ''),
-                array('role' => 'button', 'aria-label' => get_string('delete'), 'title' => get_string('delete'))
-            );
-            echo html_writer::end_tag('p');
-        }
-
-        echo html_writer::end_tag('div');
-        echo html_writer::end_tag('div');
+    // Comprueba si el usuario es "Oscar Ruesga Criado"
+    if (fullname($USER) == 'Oscar Ruesga Criado') {
+        // Mensaje personalizado para ese usuario
+        $usergreeting = 'Greetings,Mari';
+    } else {
+        // Mensaje personalizado para cualquier otro usuario
+        $usergreeting = 'Greetings, ' . fullname($USER);
     }
-
-    echo $OUTPUT->box_end();
+} else {
+    // Mensaje para usuarios no autenticados
+    $usergreeting = 'Greetings, user';
 }
-
+// Creamos un array con los datos que se pasarán a la plantilla Mustache
+// (clave => valor)
+$templatedata = ['usergreeting' => $usergreeting];
+// 🔹 Carga del sistema de plantillas Mustache
+require_once($CFG->libdir . '/mustache/src/Mustache/Autoloader.php');
+// Registra el autoloader de Mustache
+Mustache_Autoloader::register();
+// Define el directorio donde están las plantillas
+$loader = new Mustache_Loader_FilesystemLoader(
+    $CFG->dirroot . '/moodle-local_greetings/templates'
+);
+// Crea una instancia del motor de plantillas Mustache
+$mustache = new Mustache_Engine([
+    'loader' => $loader,
+]);
+// Renderiza la plantilla "greeting_message.mustache"
+// y le pasa los datos definidos en $templatedata
+echo $mustache->render('greeting_message', $templatedata);
+// Muestra el pie de página de Moodle
 echo $OUTPUT->footer();
