@@ -15,23 +15,43 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @copyright  2022 Your name <your@email>
+ * @copyright  2022 Wail Abualela <wailabualela@gmail>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+namespace local_greetings\form;
 
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir . '/formslib.php');
 
-class local_greetings_message_form extends moodleform {
+class message_form extends \moodleform
+{
     /**
      * Define the form.
      */
-    public function definition() {
-        $mform    = $this->_form; // Don't forget the underscore!
+    public function definition()
+    {
+        $mform = $this->_form; // Don't forget the underscore!
 
-        $mform->addElement('textarea', 'message', get_string('yourmessage', 'local_greetings')); // Add elements to your form.
+        $mform->addElement(
+            'textarea',
+            'message',
+            get_string('yourmessage', 'local_greetings'),
+            'style="resize: none;"'
+        );
+
         $mform->setType('message', PARAM_TEXT); // Set type of element.
+
+        // If editing the form, load data from db.
+        if (isset($this->_customdata['message'])) {
+            $message = $this->_customdata['message'];
+
+            $mform->addElement('hidden', 'id', $message->id);
+            $mform->setType('id', PARAM_INT); // Set type of element.
+
+            $mform->setDefault('message', $message->message);
+        }
 
         $submitlabel = get_string('submit');
         $mform->addElement('submit', 'submitmessage', $submitlabel);
